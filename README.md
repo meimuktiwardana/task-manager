@@ -43,4 +43,4 @@
 
 ## Dokumentasi
 
-Untuk panduan penggunaan fitur dan dokumentasi lengkap, silakan lihat pada folder dokumen.
+Untuk panduan penggunaan fitur dan file task_manager.sql, silakan lihat pada folder dokumen.
