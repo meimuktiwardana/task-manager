@@ -1,8 +1,8 @@
 ## Requirements
 
-PHP 8.1 atau lebih tinggi
-Web Server seperti Apache (bisa menggunakan XAMPP atau Laragon)
-MySQL Database
+- PHP 8.1 atau lebih tinggi
+- Web Server seperti Apache (bisa menggunakan XAMPP atau Laragon)
+- MySQL Database
 
 ## Cara Instalasi di Lokal
 
