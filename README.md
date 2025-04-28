@@ -8,13 +8,13 @@
 
 1. Clone repository
 
-git clone git@github.com:meimuktiwardana/task-manager.git
+`git clone git@github.com:meimuktiwardana/task-manager.git`
 
-2. Masuk ke folder project
+2. Masuk ke folder project "task-manager"
 
-3. Install dependency menggunakan Composer
+3. Install dependency menggunakan Composer di folder project
 
-composer install
+`composer install`
 
 4. Salin file .env
 
@@ -28,7 +28,7 @@ composer install
 
 6. Jalankan server lokal
 
-php artisan serve
+`php artisan serve`
 
 7. Akses aplikasi
 
