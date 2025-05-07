@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TaskResource\Pages;
 use App\Filament\Resources\TaskResource\RelationManagers;
+use App\Filament\Resources\TaskResource\Widgets;
 use App\Models\Task;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -13,6 +14,8 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Livewire\Component;
 
 class TaskResource extends Resource
 {
@@ -113,13 +116,25 @@ class TaskResource extends Resource
                     ->label('Project'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->after(function ($livewire) {
+                        // Emit event to refresh widget after task update
+                        $livewire->emit('taskUpdated');
+                    }),
                 Tables\Actions\DeleteAction::make()
-                    ->visible(fn () => Auth::user()->hasRole('super_admin')),
+                    ->visible(fn () => Auth::user()->hasRole('super_admin'))
+                    ->after(function ($livewire) {
+                        // Emit event to refresh widget after task deletion
+                        $livewire->emit('taskDeleted');
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make()
-                    ->visible(fn () => Auth::user()->hasRole('super_admin')),
+                    ->visible(fn () => Auth::user()->hasRole('super_admin'))
+                    ->after(function ($livewire) {
+                        // Emit event to refresh widget after bulk task deletion
+                        $livewire->emit('taskDeleted');
+                    }),
             ]);
     }
     
@@ -136,6 +151,13 @@ class TaskResource extends Resource
             'index' => Pages\ListTasks::route('/'),
             'create' => Pages\CreateTask::route('/create'),
             'edit' => Pages\EditTask::route('/{record}/edit'),
+        ];
+    }
+    
+    public static function getWidgets(): array
+    {
+        return [
+            Widgets\TaskCountByUserWidget::class,
         ];
     }
     

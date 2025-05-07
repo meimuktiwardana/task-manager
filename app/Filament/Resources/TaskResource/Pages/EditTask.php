@@ -15,10 +15,20 @@ class EditTask extends EditRecord
         $actions = [];
        
         if (Auth::user()->hasRole('super_admin')) {
-            $actions[] = Actions\DeleteAction::make();
+            $actions[] = Actions\DeleteAction::make()
+            ->after(function ($livewire) {
+                // Emit event to refresh widget after task deletion
+                $livewire->emit('taskDeleted');
+            });
         }
        
         return $actions;
+    }
+    
+    protected function afterSave(): void
+    {
+        // Emit event to refresh widget after task update
+        $this->emitTo('task-count-by-user-widget', 'taskUpdated');
     }
    
     protected function mutateFormDataBeforeSave(array $data): array
@@ -44,4 +54,5 @@ class EditTask extends EditRecord
         
         return true;
     }
+    
 }

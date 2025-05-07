@@ -13,7 +13,18 @@ class ListTasks extends ListRecords
     protected function getActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->after(function ($livewire) {
+                    // Emit event to refresh widget after task creation
+                    $livewire->emit('taskCreated');
+                }),
+        ];
+    }
+    
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            TaskResource\Widgets\TaskCountByUserWidget::class,
         ];
     }
 }

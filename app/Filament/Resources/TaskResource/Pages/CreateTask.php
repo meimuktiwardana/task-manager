@@ -18,6 +18,15 @@ class CreateTask extends CreateRecord
             $data['user_id'] = Auth::id();
         }
         
+        
+        // Emit event to refresh widget after task creation
+        $this->emit('taskCreated');
         return $data;
+    }
+    
+    protected function afterCreate(): void
+    {
+        // Emit event to refresh widget after task creation
+        $this->emitTo('task-count-by-user-widget', 'taskCreated');
     }
 }
